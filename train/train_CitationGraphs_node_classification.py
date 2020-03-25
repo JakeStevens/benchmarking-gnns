@@ -29,7 +29,7 @@ def train_epoch(model, optimizer, device, graph, nfeat, efeat, norm_n, norm_e, t
     return epoch_loss, epoch_train_acc, optimizer
 
 
-def evaluate_network(model, optimizer, device, graph, nfeat, efeat, norm_n, norm_e, mask, labels, epoch):
+def evaluate_network(model, device, graph, nfeat, efeat, norm_n, norm_e, mask, labels, epoch):
     
     model.eval()
     epoch_test_loss = 0
