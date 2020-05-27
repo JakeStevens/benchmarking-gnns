@@ -33,14 +33,18 @@ class GATNet(nn.Module):
         self.dropout = dropout
         self.n_classes = n_classes
         self.device = net_params['device']
+        self.dgl_builtin = net_params['builtin']
+
         
         self.embedding_h = nn.Embedding(in_dim_node, hidden_dim * num_heads) # node feat is an integer
         
         self.in_feat_dropout = nn.Dropout(in_feat_dropout)
         
         self.layers = nn.ModuleList([GATLayer(hidden_dim * num_heads, hidden_dim, num_heads,
-                                              dropout, self.graph_norm, self.batch_norm, self.residual) for _ in range(n_layers-1)])
-        self.layers.append(GATLayer(hidden_dim * num_heads, out_dim, 1, dropout, self.graph_norm, self.batch_norm, self.residual))
+                                              dropout, self.graph_norm, self.batch_norm,
+                                              self.residual, dgl_builtin=self.dgl_builtin) for _ in range(n_layers-1)])
+        self.layers.append(GATLayer(hidden_dim * num_heads, out_dim, 1, dropout, self.graph_norm,
+            self.batch_norm, self.residual, dgl_builtin=self.dgl_builtin))
         self.MLP_layer = MLPReadout(out_dim, n_classes)
 
 

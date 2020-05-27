@@ -60,8 +60,6 @@ class CitationGraphsDataset(torch.utils.data.Dataset):
         D = dataset.features.shape[1]
         graph.ndata['feat'] = torch.Tensor(dataset.features)
         graph.edata['feat'] = torch.zeros((E, D))
-        graph.batch_num_nodes = [N]
-
 
         self.norm_n = torch.FloatTensor(N,1).fill_(1./float(N)).sqrt()
         self.norm_e = torch.FloatTensor(E,1).fill_(1./float(E)).sqrt()

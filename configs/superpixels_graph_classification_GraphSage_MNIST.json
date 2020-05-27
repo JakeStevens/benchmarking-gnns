@@ -23,6 +23,7 @@
     },
     
     "net_params": {
+        "builtin": true,
         "L": 4,
         "hidden_dim": 108,
         "out_dim": 108,
@@ -32,6 +33,6 @@
         "dropout": 0.0,
         "graph_norm": true,
         "batch_norm": true,
-        "sage_aggregator": "meanpool"
+        "sage_aggregator": "mean"
     }
 }

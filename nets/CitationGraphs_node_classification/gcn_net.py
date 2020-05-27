@@ -49,6 +49,7 @@ class GCNNet(nn.Module):
             self.graph_norm, self.batch_norm, self.residual,
             dgl_builtin=self.dgl_builtin))
 
+
         self.dropout = nn.Dropout(p=dropout)
 
     def forward(self, g, h, e, snorm_n, snorm_e):

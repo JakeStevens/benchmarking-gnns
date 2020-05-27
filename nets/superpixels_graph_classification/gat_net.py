@@ -27,6 +27,9 @@ class GATNet(nn.Module):
         self.graph_norm = net_params['graph_norm']
         self.batch_norm = net_params['batch_norm']
         self.residual = net_params['residual']
+
+        self.dgl_builtin = net_params['builtin']
+
         self.dropout = dropout
         
         self.embedding_h = nn.Linear(in_dim, hidden_dim * num_heads)
@@ -34,8 +37,10 @@ class GATNet(nn.Module):
         self.in_feat_dropout = nn.Dropout(in_feat_dropout)
         
         self.layers = nn.ModuleList([GATLayer(hidden_dim * num_heads, hidden_dim, num_heads,
-                                              dropout, self.graph_norm, self.batch_norm, self.residual) for _ in range(n_layers-1)])
-        self.layers.append(GATLayer(hidden_dim * num_heads, out_dim, 1, dropout, self.graph_norm, self.batch_norm, self.residual))
+                                              dropout, self.graph_norm, self.batch_norm,
+                                              self.residual, dgl_builtin=self.dgl_builtin) for _ in range(n_layers-1)])
+        self.layers.append(GATLayer(hidden_dim * num_heads, out_dim, 1, dropout, self.graph_norm,
+            self.batch_norm, self.residual, dgl_builtin=self.dgl_builtin))
         self.MLP_layer = MLPReadout(out_dim, n_classes)
         
     def forward(self, g, h, e, snorm_n, snorm_e):

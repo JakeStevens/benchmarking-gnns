@@ -26,15 +26,18 @@ class GCNNet(nn.Module):
         self.graph_norm = net_params['graph_norm']
         self.batch_norm = net_params['batch_norm']
         self.residual = net_params['residual']
+        self.dgl_builtin = net_params['builtin']
         
         self.in_feat_dropout = nn.Dropout(in_feat_dropout)
         
         self.embedding_h = nn.Embedding(num_atom_type, hidden_dim)
         
         self.layers = nn.ModuleList([GCNLayer(hidden_dim, hidden_dim, F.relu,
-                                              dropout, self.graph_norm, self.batch_norm, self.residual) for _ in range(n_layers-1)])
+                                              dropout, self.graph_norm, self.batch_norm,
+                                              self.residual, dgl_builtin=self.dgl_builtin) for _ in range(n_layers-1)])
         self.layers.append(GCNLayer(hidden_dim, out_dim, F.relu,
-                                    dropout, self.graph_norm, self.batch_norm, self.residual))
+                                    dropout, self.graph_norm, self.batch_norm, self.residual,
+                                    dgl_builtin=self.dgl_builtin))
         self.MLP_layer = MLPReadout(out_dim, 1)   # 1 out dim since regression problem        
 
     def forward(self, g, h, e, snorm_n, snorm_e):

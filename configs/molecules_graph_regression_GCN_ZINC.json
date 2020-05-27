@@ -23,6 +23,7 @@
     },
     
     "net_params": {
+        "builtin": true,
         "L": 4,
         "hidden_dim": 145,
         "out_dim": 145,

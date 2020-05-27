@@ -204,6 +204,7 @@ def main():
     parser.add_argument('--cat', help="Please give a value for cat")
     parser.add_argument('--self_loop', help="Please give a value for self_loop")
     parser.add_argument('--max_time', help="Please give a value for max_time")
+    parser.add_argument('--builtin', help="Please give a value for builtin")
     args = parser.parse_args()
     with open(args.config) as f:
         config = json.load(f)
@@ -288,6 +289,8 @@ def main():
         net_params['cat'] = True if args.cat=='True' else False
     if args.self_loop is not None:
         net_params['self_loop'] = True if args.self_loop=='True' else False
+    if args.builtin is not None:
+        net_params['builtin'] = True if args.builtin == 'True' else False
         
     # Superpixels
     net_params['in_dim'] = dataset.train[0][0].ndata['feat'][0].size(0)

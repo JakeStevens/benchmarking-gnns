@@ -112,9 +112,7 @@ def eval_pipeline(MODEL_NAME, dataset, params, net_params, write_file_name):
     torch.manual_seed(params['seed'])
     if device == 'cuda':
         torch.cuda.manual_seed(params['seed'])
-    
-    print("Test Nodes: ", test_mask.int().sum().item())
-    print("Number of Classes: ", net_params['n_classes'])
+   
 
     model = gnn_model(MODEL_NAME, net_params)
     model = model.to(device)
@@ -124,6 +122,10 @@ def eval_pipeline(MODEL_NAME, dataset, params, net_params, write_file_name):
     efeat = graph.edata['feat'].to(device)
     norm_n = dataset.norm_n.to(device)
     norm_e = dataset.norm_e.to(device)
+
+    print("Graph Nodes: ", graph.number_of_nodes())
+    print("Test Nodes: ", test_mask.int().sum().item())
+    print("Number of Classes: ", net_params['n_classes'])
     
     # At any point you can hit Ctrl + C to break out of training early.
     try:

@@ -78,7 +78,7 @@ class GCNLayer(nn.Module):
         if self.residual:
             h = h_in + h # residual connection
             
-        h = self.dropout(h)
+        #h = self.dropout(h)
         return h
     
     def __repr__(self):

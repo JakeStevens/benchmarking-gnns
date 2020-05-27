@@ -28,13 +28,16 @@ class GCNNet(nn.Module):
         self.residual = net_params['residual']
         self.n_classes = n_classes
         self.device = net_params['device']
+        self.dgl_builtin = net_params['builtin']
         
         self.embedding_h = nn.Linear(in_dim, hidden_dim)
         self.in_feat_dropout = nn.Dropout(in_feat_dropout)
         
         self.layers = nn.ModuleList([GCNLayer(hidden_dim, hidden_dim, F.relu, dropout,
-                                              self.graph_norm, self.batch_norm, self.residual) for _ in range(n_layers-1)])
-        self.layers.append(GCNLayer(hidden_dim, out_dim, F.relu, dropout, self.graph_norm, self.batch_norm, self.residual))
+                                              self.graph_norm, self.batch_norm, self.residual,
+                                              dgl_builtin=self.dgl_builtin) for _ in range(n_layers-1)])
+        self.layers.append(GCNLayer(hidden_dim, out_dim, F.relu, dropout, self.graph_norm, self.batch_norm, self.residual,
+            dgl_builtin=self.dgl_builtin))
         self.MLP_layer = MLPReadout(2*out_dim, n_classes)        
 
     def forward(self, g, h, e, snorm_n, snorm_e):

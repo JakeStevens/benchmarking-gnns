@@ -37,8 +37,8 @@ def evaluate_network(model, device, graph, nfeat, efeat, norm_n, norm_e, mask, l
     nb_data = 0
     with torch.no_grad():
         logits = model.forward(graph, nfeat, efeat, norm_n, norm_e)
-        loss = model.loss(logits[mask], labels[mask])
-        epoch_test_loss = loss.detach().item()
-        epoch_test_acc = accuracy(logits[mask], labels[mask])
+        #loss = model.loss(logits[mask], labels[mask])
+        epoch_test_loss = 0#loss.detach().item()
+        epoch_test_acc = 0#accuracy(logits[mask], labels[mask])
 
     return epoch_test_loss, epoch_test_acc
