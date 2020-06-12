@@ -7,22 +7,28 @@ out/
 gmail.py
 
 #SBM datasets
-data/SBMs/*.pkl
+benchmarking_gnns/data/SBMs/*.pkl
 
 #Superpixels datasets
-data/superpixels/*.pkl
-data/superpixels/*.zip
-PATH/
+benchmarking_gnns/data/superpixels/*.pkl
+benchmarking_gnns/data/superpixels/*.zip
 
 #ZINC dataset
-data/molecules/*.pkl
-data/molecules/*.pickle
-data/molecules/*.zip
+benchmarking_gnns/data/molecules/*.pkl
+benchmarking_gnns/data/molecules/*.pickle
+benchmarking_gnns/data/molecules/*.zip
 
 #TSP
-data/TSP/*.txt
-data/TSP/*.pkl
-data/TSP/*.zip
-data/TSP/pyconcorde/
+benchmarking_gnns/data/TSP/*.txt
+benchmarking_gnns/data/TSP/*.pkl
+benchmarking_gnns/data/TSP/*.zip
+benchmarking_gnns/data/TSP/pyconcorde/
 
+# TUs
+benchmarking_gnns/data/TUs/*.index
+
+# TUs
+benchmarking_gnns/data/molecules/*.index
+
+**.swp
 
