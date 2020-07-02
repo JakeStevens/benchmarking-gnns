@@ -1,0 +1,23 @@
+Dataset: pubmed,
+Model: GraphSage
+
+params={'seed': 41, 'epochs': 500, 'batch_size': 128, 'init_lr': 0.01, 'lr_reduce_factor': 0.5, 'lr_schedule_patience': 25, 'min_lr': 1e-06, 'weight_decay': 0.0005, 'print_epoch_interval': 5, 'max_time': 48}
+
+net_params={'builtin': True, 'L': 3, 'hidden_dim': 128, 'out_dim': 16, 'residual': False, 'in_feat_dropout': 0, 'dropout': 0, 'graph_norm': False, 'batch_norm': False, 'sage_aggregator': 'mean', 'device': device(type='cuda'), 'gpu_id': 0, 'batch_size': 128, 'in_dim': 500, 'n_classes': 3, 'total_param': 195078}
+
+GraphSageNet(
+  (layers): ModuleList(
+    (0): GraphSageLayer(in_channels=500, out_channels=128, aggregator=mean, residual=False)
+    (1): GraphSageLayer(in_channels=128, out_channels=128, aggregator=mean, residual=False)
+    (2): GraphSageLayer(in_channels=128, out_channels=128, aggregator=mean, residual=False)
+    (3): GraphSageLayer(in_channels=128, out_channels=3, aggregator=mean, residual=False)
+  )
+)
+
+Total Parameters: 195078
+
+
+    Total Time Taken: 0.0010 hrs
+Average Time Per Epoch: 0.0039 s
+
+

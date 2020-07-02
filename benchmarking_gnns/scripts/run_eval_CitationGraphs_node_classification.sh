@@ -22,12 +22,22 @@ tmux new -s benchmark_CitationGraphs_node_classification -d
 tmux send-keys "conda activate benchmark_gnn" C-m
 
 datasets=(CORA CITESEER PUBMED)
-nets=(GCN GraphSage GAT )
-for dataset in ${datasets[@]}; do
-    for net in ${nets[@]}; do
-        tmux send-keys "
-python $code --dataset $dataset --gpu_id 0 --config 'configs/CitationGraphs_node_classification_$net.json' &
+#nets=(GCN GraphSage)
+layers=(1 2 3)
+hiddens=(16 128 1024)
+for layer in ${layers[@]}; do
+  for hidden in ${hiddens[@]}; do
+    for dataset in ${datasets[@]}; do
+      tmux send-keys "
+python $code --dataset $dataset --gpu_id 0 --L $layer --hidden_dim $hidden --config 'configs/CitationGraphs_node_classification_GCN.json' &
+wait" C-m
+      tmux send-keys "
+python $code --dataset $dataset --gpu_id 0 --L $layer --hidden_dim $hidden --config 'configs/CitationGraphs_node_classification_GraphSage.json' &
+wait" C-m
+      tmux send-keys "
+python $code --dataset $dataset --gpu_id 0 --L $layer --hidden_dim $hidden --sage_aggregator pool --config 'configs/CitationGraphs_node_classification_GraphSage.json' &
 wait" C-m
     done
+  done
 done
 tmux send-keys "tmux kill-session -t benchmark_CitationGraphs_node_classification" C-m

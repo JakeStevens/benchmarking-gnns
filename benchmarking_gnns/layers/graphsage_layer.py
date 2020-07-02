@@ -53,7 +53,7 @@ class GraphSageLayer(nn.Module):
         h_in = h              # for residual connection
         
         if self.dgl_builtin == False:
-            h = self.dropout(h)
+            #h = self.dropout(h)
             g.ndata['h'] = h
             g.update_all(fn.copy_src(src='h', out='m'), self.aggregator,
                          self.nodeapply)

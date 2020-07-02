@@ -31,23 +31,24 @@ class GCNNet(nn.Module):
         self.n_classes = n_classes
         self.device = net_params['device']
         self.dgl_builtin = net_params['builtin']
+        self.agg_first = net_params['agg_first']
 
         self.layers = nn.ModuleList()
         # input
         self.layers.append(GCNLayer(in_dim, hidden_dim, F.relu, dropout,
             self.graph_norm, self.batch_norm, self.residual,
-            dgl_builtin=self.dgl_builtin))
+            dgl_builtin=self.dgl_builtin, agg_first=self.agg_first))
 
         # hidden
         self.layers.extend(nn.ModuleList([GCNLayer(hidden_dim, hidden_dim,
             F.relu, dropout, self.graph_norm, self.batch_norm, self.residual,
-            dgl_builtin=self.dgl_builtin)
+            dgl_builtin=self.dgl_builtin, agg_first=self.agg_first)
             for _ in range(n_layers-1)]))
 
         # output
         self.layers.append(GCNLayer(hidden_dim, n_classes, None, 0,
             self.graph_norm, self.batch_norm, self.residual,
-            dgl_builtin=self.dgl_builtin))
+            dgl_builtin=self.dgl_builtin, agg_first=self.agg_first))
 
 
         self.dropout = nn.Dropout(p=dropout)

@@ -3,7 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 import dgl.function as fn
-from dgl.nn.pytorch import GraphConv
+
+from .dglgraphconv import DGLGraphConv
 
 """
     GCN: Graph Convolutional Networks
@@ -33,7 +34,7 @@ class GCNLayer(nn.Module):
     """
         Param: [in_dim, out_dim]
     """
-    def __init__(self, in_dim, out_dim, activation, dropout, graph_norm, batch_norm, residual=False, dgl_builtin=False):
+    def __init__(self, in_dim, out_dim, activation, dropout, graph_norm, batch_norm, residual=False, dgl_builtin=False, agg_first=True):
         super().__init__()
         self.in_channels = in_dim
         self.out_channels = out_dim
@@ -41,6 +42,7 @@ class GCNLayer(nn.Module):
         self.batch_norm = batch_norm
         self.residual = residual
         self.dgl_builtin = dgl_builtin
+        self.agg_first = agg_first
         
         if in_dim != out_dim:
             self.residual = False
@@ -51,7 +53,8 @@ class GCNLayer(nn.Module):
         if self.dgl_builtin == False:
             self.apply_mod = NodeApplyModule(in_dim, out_dim)
         else:
-            self.conv = GraphConv(in_dim, out_dim)
+            self.conv = DGLGraphConv(in_dim, out_dim, norm='right', bias=False,
+                    agg_first=agg_first)
 
         
     def forward(self, g, feature, snorm_n):

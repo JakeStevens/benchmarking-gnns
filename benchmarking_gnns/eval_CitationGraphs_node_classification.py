@@ -202,6 +202,7 @@ def main():
     parser.add_argument('--dropout', help="Please give a value for dropout")
     parser.add_argument('--graph_norm', help="Please give a value for graph_norm")
     parser.add_argument('--batch_norm', help="Please give a value for batch_norm")
+    parser.add_argument('--agg_first', help="Please give a value for agg_first")
     parser.add_argument('--sage_aggregator', help="Please give a value for sage_aggregator")
     parser.add_argument('--data_mode', help="Please give a value for data_mode")
     parser.add_argument('--num_pool', help="Please give a value for num_pool")
@@ -278,6 +279,8 @@ def main():
         net_params['graph_norm'] = True if args.graph_norm=='True' else False
     if args.batch_norm is not None:
         net_params['batch_norm'] = True if args.batch_norm=='True' else False
+    if args.agg_first is not None:
+        net_params['agg_first'] = True if args.agg_first=='True' else False
     if args.sage_aggregator is not None:
         net_params['sage_aggregator'] = args.sage_aggregator
     if args.data_mode is not None:
@@ -308,7 +311,13 @@ def main():
         builtin = ''
     else:
         builtin = 'DGL' if net_params['builtin'] else 'Custom'
-    write_file_name = out_dir + 'results/eval_only_' + MODEL_NAME + "_" + DATASET_NAME + "_GPU" + str(config['gpu']['id']) + "_" +  builtin
+    if MODEL_NAME == 'GraphSage' and args.sage_aggregator == 'pool':
+        model_name = f'{MODEL_NAME}-max'
+    else:
+        model_name = MODEL_NAME
+    write_file_name = f'{out_dir}/results/eval_only_{model_name}_L{args.L}_'
+    write_file_name += f'H{args.hidden_dim}_{DATASET_NAME}_'
+    write_file_name += f'GPU{config["gpu"]["id"]}_{builtin}'
 
     if not os.path.exists(out_dir + 'results'):
         os.makedirs(out_dir + 'results')

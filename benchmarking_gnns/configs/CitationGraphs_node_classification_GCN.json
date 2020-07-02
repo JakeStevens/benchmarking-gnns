@@ -31,6 +31,7 @@
         "dropout": 0.5,
         "graph_norm": false,
         "batch_norm": false,
-        "self_loop": true
+        "self_loop": true,
+        "agg_first": true
     }
 }
