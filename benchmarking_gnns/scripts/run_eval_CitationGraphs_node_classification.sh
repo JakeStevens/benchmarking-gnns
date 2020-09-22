@@ -29,13 +29,24 @@ for layer in ${layers[@]}; do
   for hidden in ${hiddens[@]}; do
     for dataset in ${datasets[@]}; do
       tmux send-keys "
-python $code --dataset $dataset --gpu_id 0 --L $layer --hidden_dim $hidden --config 'configs/CitationGraphs_node_classification_GCN.json' &
+nvidia-smi --query-gpu=power.draw --format=csv --loop-ms=10 > gcn-$dataset-$hidden-$layer.power &
+smi=\$!
+python $code --dataset $dataset --gpu_id 0 --L $layer --hidden_dim $hidden --config 'configs/CitationGraphs_node_classification_GCN.json' --epochs 2000
+kill \$smi
 wait" C-m
-      tmux send-keys "
-python $code --dataset $dataset --gpu_id 0 --L $layer --hidden_dim $hidden --config 'configs/CitationGraphs_node_classification_GraphSage.json' &
+
+      tmux send-keys "      
+nvidia-smi --query-gpu=power.draw --format=csv --loop-ms=10 > graphsage-$dataset-$hidden-$layer.power &
+smi=\$!
+python $code --dataset $dataset --gpu_id 0 --L $layer --hidden_dim $hidden --config 'configs/CitationGraphs_node_classification_GraphSage.json' --epochs 2000
+kill \$smi
 wait" C-m
+
       tmux send-keys "
-python $code --dataset $dataset --gpu_id 0 --L $layer --hidden_dim $hidden --sage_aggregator pool --config 'configs/CitationGraphs_node_classification_GraphSage.json' &
+nvidia-smi --query-gpu=power.draw --format=csv --loop-ms=10 > graphsage-max-$dataset-$hidden-$layer.power &
+smi=\$!
+python $code --dataset $dataset --gpu_id 0 --L $layer --hidden_dim $hidden --sage_aggregator pool --config 'configs/CitationGraphs_node_classification_GraphSage.json' --epochs 2000
+kill \$smi
 wait" C-m
     done
   done

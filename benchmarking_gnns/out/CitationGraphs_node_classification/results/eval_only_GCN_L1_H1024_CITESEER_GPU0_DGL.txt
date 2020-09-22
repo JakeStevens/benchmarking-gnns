@@ -1,7 +1,7 @@
 Dataset: citeseer,
 Model: GCN
 
-params={'seed': 41, 'epochs': 500, 'batch_size': 128, 'init_lr': 0.01, 'lr_reduce_factor': 0.5, 'lr_schedule_patience': 5, 'min_lr': 1e-05, 'weight_decay': 0.0005, 'print_epoch_interval': 5, 'max_time': 48}
+params={'seed': 41, 'epochs': 2000, 'batch_size': 128, 'init_lr': 0.01, 'lr_reduce_factor': 0.5, 'lr_schedule_patience': 5, 'min_lr': 1e-05, 'weight_decay': 0.0005, 'print_epoch_interval': 5, 'max_time': 48}
 
 net_params={'builtin': True, 'L': 1, 'hidden_dim': 1024, 'out_dim': 16, 'residual': False, 'in_feat_dropout': 0.5, 'dropout': 0.5, 'graph_norm': False, 'batch_norm': False, 'self_loop': True, 'agg_first': True, 'device': device(type='cuda'), 'gpu_id': 0, 'batch_size': 128, 'in_dim': 3703, 'n_classes': 6, 'total_param': 3800076}
 
@@ -16,7 +16,7 @@ GCNNet(
 Total Parameters: 3800076
 
 
-    Total Time Taken: 0.0010 hrs
-Average Time Per Epoch: 0.0041 s
+    Total Time Taken: 0.0025 hrs
+Average Time Per Epoch: 0.0036 s
 
 
